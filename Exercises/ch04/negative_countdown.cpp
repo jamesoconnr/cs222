@@ -12,7 +12,7 @@ void countdown(int n) {
 
 int main()
 {
-    // counts down very low very fast
+    // counts down infinitley 
     countdown(-3);
     return 0;
 }
