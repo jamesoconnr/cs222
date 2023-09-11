@@ -13,6 +13,6 @@ void countdown(int n) {
 int main()
 {
     // counts down infinitley 
-    countdown(-3);
+    countdown(4);
     return 0;
 }
