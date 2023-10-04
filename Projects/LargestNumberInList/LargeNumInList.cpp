@@ -12,9 +12,6 @@ int main (int argc, char** argv){
 		if (i == 1 || currentInt > largestNum){
 			largestNum = currentInt;
 		}
-	}
-	for (int i = 1; i < argc; i++){
-		int currentInt = atoi(argv[i]);
 		if (currentInt == largestNum){
 			largestNumCount++;
 		}
