@@ -7,7 +7,15 @@ struct Time {
 	
 	void increment(double secs);
     	void print();
-};
+	Time(int h, int m, double s);
+}
+
+Time::Time(int h, int m, double s)
+{
+ 	hour = h;
+	minute = m; 
+	second = s;
+}
 
 void Time::print()
 {
@@ -34,5 +42,7 @@ int main(){
 	Time current_time = {9, 14, 30.0};
 	current_time.increment(50.0);
 	current_time.print();
+	//Time time(5000.0);
+	//time.print();
 	return 0;
 }
