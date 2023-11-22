@@ -11,6 +11,7 @@ Card::Card(int s, int r) {
 string Card::to_string() const
 {
     vector<string> suit_strings = {"Clubs", "Diamonds", "Hearts", "Spades"};
+    // ace was already in the right place
     vector<string> rank_strings = {"Joker", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King",  "Ace"};
 
     if (rank == 0) return rank_strings[rank];
