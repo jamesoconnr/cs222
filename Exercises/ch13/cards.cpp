@@ -1,4 +1,5 @@
 #include "Cards.h"
+#include <vector>
 
 Card::Card() {
     suit = 0; rank = 0;
@@ -33,6 +34,26 @@ bool Card::is_greater(const Card& c2) const
     return false;
 }
 
+vector<Card> build_deck() {
+    vector<Card> deck(52);
+    int i = 0;
+    for (int suit = 0; suit <= 3; suit++) {
+        for (int rank = 1; rank <= 13; rank++) {
+            deck[i].suit = suit;
+            deck[i].rank = rank;
+            i++;
+        }
+    }
+    return deck;
+}
+
+void print_deck(const vector<Card>& deck)
+{
+    for (int i = 0; i < deck.size(); i++) {
+        cout << deck[i].to_string() << endl;
+    }
+}
+
 int main(){
     Card myCard(1, 2);
     Card myCard2(3, 4);
@@ -48,6 +69,7 @@ int main(){
     } else {
         cout << "Not the same cards" << endl;
     }
-
+    vector<Card> deck = build_deck();
+    print_deck(deck);
     return 1;
 }
