@@ -17,9 +17,9 @@ string Card::to_string() const
     return rank_strings[rank] + " of " + suit_strings[suit];
 }
 
-bool Card::equals(const Card& c2) const
+bool equals(const Card& c1, const Card& c2)
 {
-    return (rank == c2.rank && suit == c2.suit);
+    return (c1.rank == c2.rank && c1.suit == c2.suit);
 }
 
 bool Card::is_greater(const Card& c2) const
@@ -42,7 +42,7 @@ int main(){
     } else {
         cout << "Not equal" << endl;
     }  
-    if (myCard.equals(myCard2)) {
+    if (equals(myCard, myCard2)) {
         cout << "Yup, that's the same card." << endl;
     } else {
         cout << "Not the same cards" << endl;
