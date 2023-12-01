@@ -1,3 +1,5 @@
+// a challenging lesson for those of us who forgot all our geometry lol
+
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -30,6 +32,8 @@ class Complex {
     void calculate_polar();
     void calculate_cartesian();
 
+    Complex operator/(Complex& c);
+
     Complex operator-(const Complex& c);
 };
 
@@ -53,6 +57,27 @@ Complex Complex::operator-(const Complex& c) {
     return Complex(real - c.real, imag - c.imag);
 }
 
+Complex Complex::operator/(Complex& c) {
+    if (polar == false) {
+        this->calculate_polar();
+    }
+    if (c.polar == false) {
+        c.calculate_polar();
+    }
+
+    Complex num(mag / c.mag, theta - c.theta, POLAR);
+    num.calculate_cartesian();
+    return num;
+}
+
 int main() {
-    return 0;
+    Complex c1(20, 7);
+    Complex c2(6, 3);
+    c1 = c1 - c2;
+    cout << c1.to_string() << endl;
+
+    Complex c3(5, 3);
+    Complex c4(4, 2);
+    c3 = c3 / c4;
+    cout << c3.to_string() << endl;
 }
