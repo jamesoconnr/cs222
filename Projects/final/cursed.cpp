@@ -1,34 +1,69 @@
 #include <ncurses.h>
+#include <menu.h>
 #include <stdlib.h>
 #include <iostream>
+#include <cstdio>
+#include <memory>
+#include <stdexcept>
 #include <string>
+#include <array>
+#include <vector>
 using namespace std;
 
-char* strtochar(string str){
-	int length = str.length();
-	char* resultchar = new char[length + 1];
-	strcpy(resultchar, str.c_str()); 		
+struct File{
+	char perms;
+	int hardlinks;
+	char owner;
+	char group;
+	int size;
+	char mod_time;
+	char name;
+
+	File(char p, char ln, char o, char g, char s, char mt, char n);
+};
+
+vector<string> lsdir() {
+	char cmd[] = "ls -lah";
+    array<char, 128> buffer;
+    string result;
+	vector<string> output;
+    unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) {
+        throw std::runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        output.push_back(buffer.data());
+    }
+	return output;
 }
-char* lsdir(){
+string index(string str, int s, int e){
 	string result = "";
-	char buffer[128];
-  	// Open pipe to file
-  	FILE* pipe = popen("ls -a", "r");
-  	if (!pipe) {
-  	   return;
-  	}
-
-  	while (!feof(pipe)) {
-  	   if (fgets(buffer, 128, pipe) != NULL)
-  	      result += buffer;
-  	}
-  	pclose(pipe);
-	char* resultchar = strtochar(result);
-	return resultchar;
+	for (int i = s; i < e; i++){
+		result += str[i];
+	}
+	return result;
 }
+vector<string> lsSplit(string ls){
+	vector<string> splitls;
+	int firstChar = 0;
+	for (int i = 0; i < ls.length(); i++){
+		if (ls[i] == ' ' && ls[i+1] != ' '){
+			index(ls, firstChar, i);
+		}
+	}
 
+	return splitls;
+}
 int main(){
-	char* lsout = lsdir();
-	cout << lsout << endl;
-    return 0;
+	vector<string> lsout = lsdir();
+	string test = lsout[1];
+	cout << index(test, 0, 10) << endl;
+	//initscr();
+	//for (int i = 0; i < lsout.size(); i++){
+	//	addstr(lsout[i].c_str());
+	//}
+	//refresh();
+	//getch();
+	//endwin();
+	return 0;
 }
