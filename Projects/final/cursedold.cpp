@@ -10,35 +10,20 @@
 #include <vector>
 using namespace std;
 
-
 struct File{
-	string name;
+	char perms;
+	char hardlinks;
+	char owner;
+	char group;
+	char size;
+	char mod_time;
+	char name;
 
-	File(string n);
+	File(char p, char ln, char o, char g, char s, char mt, char n);
 };
-struct Directory{
-	vector<File> files;
-
-	Directory(vector<string> ls);
-	void to_string();
-};
-
-File::File(string n){
-	name = n;
-}
-Directory::Directory(vector<string> ls){
-	for (int i = 0; i < ls.size(); i++){
-		files.push_back(File(ls[i]));
-	}
-}
-void Directory::to_string(){
-	for (int i = 0; i < files.size(); i++){
-		cout << files[i] << endl;
-	}
-}
 
 vector<string> lsdir() {
-	char cmd[] = "ls -a1";
+	char cmd[] = "ls -lah";
     array<char, 128> buffer;
     string result;
 	vector<string> output;
@@ -51,8 +36,28 @@ vector<string> lsdir() {
     }
 	return output;
 }
+string index(string str, int s, int e){
+	string result = "";
+	for (int i = s; i < e; i++){
+		result += str[i];
+	}
+	return result;
+}
+vector<string> lsSplit(string ls){
+	vector<string> splitls;
+	int firstChar = 0;
+	for (int i = 0; i < ls.length(); i++){
+		if (ls[i] == ' ' && ls[i+1] != ' '){
+			index(ls, firstChar, i);
+		}
+	}
+
+	return splitls;
+}
 int main(){
-	Directory currentDir(lsdir());
+	vector<string> lsout = lsdir();
+	string test = lsout[1];
+	cout << index(test, 0, 10) << endl;
 	//initscr();
 	//for (int i = 0; i < lsout.size(); i++){
 	//	addstr(lsout[i].c_str());
