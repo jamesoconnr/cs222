@@ -13,7 +13,6 @@
 #include <unistd.h>
 using namespace std;
 
-
 struct File{
 	string name;
 
@@ -54,8 +53,7 @@ vector<string> lsdir(string path) {
     }
 	return output;
 }
-int is_regular_file(const char *path)
-{
+int is_regular_file(const char *path){
     struct stat path_stat;
     stat(path, &path_stat);
     return S_ISREG(path_stat.st_mode);
@@ -65,6 +63,7 @@ int main(){
 	Directory currentDir(lsdir(path));
 	int choice;
 	int highlight = 0;
+	int start = 0;
 
 	initscr();
 	noecho();
@@ -79,28 +78,40 @@ int main(){
 	wrefresh(menuwin);
 	keypad(menuwin, true);
 	while(1){
-		for (int i = 0; i < currentDir.files.size(); i++){
+		for (int i = 0; i < currentDir.files.size() && start + yMax-2; i++){
 			if (i==highlight){
 				wattron(menuwin, A_REVERSE);
 			}
-			mvwprintw(menuwin, i+1, 1, currentDir.files[i].name.c_str());
+			mvwprintw(menuwin, i - start + 1, 1, currentDir.files[i].name.c_str());
 			wattroff(menuwin, A_REVERSE);
 		}
 		choice = wgetch(menuwin);
 
 		switch(choice){
-			case KEY_UP:
-				highlight--;
-				if (highlight == -1)
-					highlight = currentDir.files.size() -2;
-				break;
-			case KEY_DOWN:
-				highlight++;
-				if (highlight == currentDir.files.size() -1)
-					highlight = 0;
-				break;
-			default:
-				break;
+            case KEY_UP:
+                highlight--;
+                if (highlight < 0) {
+                    highlight = currentDir.files.size() -1;
+                }
+                if (highlight < start) {
+                    start = highlight;
+                }
+				if (highlight == currentDir.files.size() -1 && currentDir.files.size() >= yMax){
+					start = currentDir.files.size() - yMax;
+				}
+                break;
+            case KEY_DOWN:
+                highlight++;
+                if (highlight >= currentDir.files.size()) {
+                    highlight = 0;
+					start =0;
+                }
+                if (highlight >= start + yMax - 2) {
+                    start = highlight - yMax + 3;
+                }
+                break;
+            default:
+                break;
 		}
 		if (choice == 10){
 			string selection = currentDir.files[highlight].name;
