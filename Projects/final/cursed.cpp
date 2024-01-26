@@ -96,8 +96,8 @@ int main(){
                 if (highlight < start) {
                     start = highlight;
                 }
-				if (highlight == currentDir.files.size() -1 && currentDir.files.size() >= yMax){
-					start = currentDir.files.size() - yMax;
+				if (highlight == currentDir.files.size()-1 && currentDir.files.size() >= yMax){
+					start = currentDir.files.size() - yMax +1;
 				}
                 break;
             case KEY_DOWN:
