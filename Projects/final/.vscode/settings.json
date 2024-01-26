@@ -1,0 +1,9 @@
+{
+    "cSpell.words": [
+        "menuwin"
+    ],
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "iostream": "cpp"
+    }
+}
