@@ -110,6 +110,8 @@ int main(){
 				path = testpath;
 				currentDir = Directory(lsdir(path));
 				highlight = 0;
+				wclear(menuwin);
+				box(menuwin, 0, 0);
 				refresh();
 				wrefresh(menuwin);
 			}
