@@ -1,3 +1,3 @@
-# csc222
-## Object-Oriented Programming
-### James O'Connor
+# csc222 - James O'Connor
+
+# [Final project](Projects/final/)
